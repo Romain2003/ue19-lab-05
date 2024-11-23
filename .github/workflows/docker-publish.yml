@@ -23,14 +23,13 @@ jobs:
       - name: Normalize repository name (lowercase)
         run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      # Build l'image d'abord
+      # Build l'image Docker
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: false    # On ne pousse pas encore
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
-          outputs: type=docker,dest=/tmp/image.tar
 
       # Scan avec Trivy
       - name: Run Trivy vulnerability scanner
